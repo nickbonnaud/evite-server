@@ -32,7 +32,7 @@ class AuthController extends Controller {
         $token = $this->authService->issueNewToken($user);
         if ($token == null) return $this->errorResponse('Unable to create credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
         
-        return $this->errorResponse("Token expired", ['token has expired'], 401);
+        return $this->apiResponse($user, $token);
     }
 
     private function apiResponse($user, $token) {
