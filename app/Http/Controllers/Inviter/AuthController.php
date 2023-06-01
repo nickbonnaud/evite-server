@@ -41,7 +41,7 @@ class AuthController extends Controller {
         ]);
     }
 
-    private function errorResponse($error, $code, $errorsList) {
+    private function errorResponse($error, $errorsList, $code) {
         return response()->json([
             'message' => $error,
             'errors' => $errorsList
