@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller {
     
@@ -17,9 +18,9 @@ class AuthController extends Controller {
     
     public function login(LoginRequest $request) {
         $user = $this->authService->login($request->validated());
-        if ($user == null) return $this->errorResponse("Invalid Login", 401);
+        if ($user == null) return $this->errorResponse("Invalid Login", ['credentials' => ['Failed to login User']], Response::HTTP_UNAUTHORIZED);
         $token = $this->authService->issueNewToken($user);
-        if ($token == null) return $this->errorResponse('Unable to credentials', 500);
+        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
 
         return $this->apiResponse($user, $token);
     }
@@ -27,6 +28,7 @@ class AuthController extends Controller {
     public function refresh(Request $request) {
         $user = $request->user();
         $token = $this->authService->issueNewToken($user);
+        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
         
         return $this->apiResponse($user, $token);
     }
@@ -39,10 +41,10 @@ class AuthController extends Controller {
         ]);
     }
 
-    private function errorResponse($error, $code) {
+    private function errorResponse($error, $code, $errorsList) {
         return response()->json([
-            'message' => [$error],
-            'errors' => []
+            'message' => $error,
+            'errors' => $errorsList
         ], $code);
     }
 }
