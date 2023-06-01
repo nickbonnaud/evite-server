@@ -17,7 +17,9 @@ class AuthController extends Controller {
     
     public function login(LoginRequest $request) {
         $user = $this->authService->login($request->validated());
+        if ($user == null) return $this->errorResponse("Invalid Login", 401);
         $token = $this->authService->issueNewToken($user);
+        if ($token == null) return $this->errorResponse('Unable to credentials', 500);
 
         return $this->apiResponse($user, $token);
     }
@@ -35,5 +37,14 @@ class AuthController extends Controller {
                 'token' => $token,
             ]
         ]);
+    }
+
+    private function errorResponse($error, $code) {
+        return response()->json([
+            'data' => [],
+            'error' => [
+                $error
+            ]
+        ], $code);
     }
 }

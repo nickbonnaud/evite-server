@@ -10,9 +10,6 @@ class AuthService {
 
     public function login($credentials) {
         $user = User::where('email', $credentials['email'])->first();
-        Log::debug($credentials['email']);
-        Log::debug($user);
-        Log::debug(User::all());
         if ($user != null && $this->authenticate($user, $credentials['password'])) {
             return $user;
         }
