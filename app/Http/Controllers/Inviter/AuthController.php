@@ -20,7 +20,7 @@ class AuthController extends Controller {
         $user = $this->authService->login($request->validated());
         if ($user == null) return $this->errorResponse("Invalid Login", ['credentials' => ['Failed to login User']], Response::HTTP_UNAUTHORIZED);
         $token = $this->authService->issueNewToken($user);
-        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_UNAUTHORIZED);
 
         return $this->apiResponse($user, $token);
     }
