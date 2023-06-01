@@ -19,16 +19,18 @@ class AuthController extends Controller {
     public function login(LoginRequest $request) {
         $user = $this->authService->login($request->validated());
         if ($user == null) return $this->errorResponse("Invalid Login", ['credentials' => ['Failed to login User']], Response::HTTP_UNAUTHORIZED);
+        
         $token = $this->authService->issueNewToken($user);
-        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_UNAUTHORIZED);
+        if ($token == null) return $this->errorResponse('Unable to create credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_UNAUTHORIZED);
 
         return $this->apiResponse($user, $token);
     }
 
     public function refresh(Request $request) {
         $user = $request->user();
+
         $token = $this->authService->issueNewToken($user);
-        if ($token == null) return $this->errorResponse('Unable to credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($token == null) return $this->errorResponse('Unable to create credentials', ['token' => ['Failed to create Auth Token']], Response::HTTP_INTERNAL_SERVER_ERROR);
         
         return $this->apiResponse($user, $token);
     }

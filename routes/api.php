@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('inviter')->group(function() {
     Route::controller(AuthController::class)->group(function() {
         Route::post('login', 'login');
-        Route::post('refresh', 'refresh')->middleware(['auth:sanctum']);
+        Route::get('refresh', 'refresh')->middleware(['auth:sanctum']);
     });
 
     Route::middleware('auth:sanctum')->group(function() {

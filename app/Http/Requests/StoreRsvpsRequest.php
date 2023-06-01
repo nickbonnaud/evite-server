@@ -20,7 +20,7 @@ class StoreRsvpsRequest extends FormRequest {
     public function rules(): array {
         return [
             'rsvps' => 'required|array',
-            'rsvps.*.name' => 'required|string|min:3',
+            'rsvps.*.name' => 'required|string|min:2',
             'rsvps.*.number' => 'required|numeric|digits:10'
         ];
     }
