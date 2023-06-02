@@ -32,6 +32,6 @@ class Rsvp extends Model {
     }
 
     public function routeNotificationForVonage(Notification $notification): string {
-        return "01{$this->number}";
+        return "1{$this->number}";
     }
 }
