@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use App\Notifications\RsvpAdded;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Notifications\Notification;
 
 class Rsvp extends Model {
-    use HasFactory, HasUuids, Notifiable;
+    use HasFactory, HasUuids;
 
     protected $casts = [
         'notification_sent' => 'boolean',
@@ -24,7 +21,6 @@ class Rsvp extends Model {
     public static function boot(): void {
         parent::boot();
         static::creating(fn (Rsvp $rsvp) => $rsvp->short_id = unique_random('rsvps', 'short_id', 4));
-        static::created(fn (Rsvp $rsvp) => $rsvp->notify(new RsvpAdded()));
     }
 
     public function user() {
