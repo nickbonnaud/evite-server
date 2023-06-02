@@ -24,7 +24,7 @@ class Rsvp extends Model {
     public static function boot(): void {
         parent::boot();
         static::creating(fn (Rsvp $rsvp) => $rsvp->short_id = unique_random('rsvps', 'short_id', 4));
-        // static::created(fn (Rsvp $rsvp) => $rsvp->notify(new RsvpAdded()));
+        static::created(fn (Rsvp $rsvp) => $rsvp->notify(new RsvpAdded()));
     }
 
     public function user() {
