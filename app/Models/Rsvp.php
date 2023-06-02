@@ -30,8 +30,4 @@ class Rsvp extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function routeNotificationForVonage(Notification $notification): string {
-        return "1{$this->number}";
-    }
 }
