@@ -14,6 +14,7 @@ class InviteeRsvpResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
+            'short_id' => $this->short_id,
             'name' => $this->name,
             'will_attend' => $this->will_attend,
             'number_attending' => $this->number_attending,
