@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\VonageMessage;
 
-class RsvpAdded extends Notification {
+class RsvpAdded extends Notification implements ShouldQueue {
     use Queueable;
 
     /**
@@ -30,7 +30,6 @@ class RsvpAdded extends Notification {
     }
 
     public function toVonage(object $notifiable): VonageMessage {
-    return (new VonageMessage)
-                ->content("Your RSVP for Michelle and Nick's celebration of marriage. Please RSVP at https://bonnaud-meyer.com/#rsvp?id={$notifiable->short_id}");
-}
+        return (new VonageMessage)->content("Your RSVP for Michelle and Nick's celebration of marriage. Please RSVP at https://bonnaud-meyer.com/#rsvp?id={$notifiable->short_id}");
+    }
 }
