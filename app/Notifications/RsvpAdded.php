@@ -27,6 +27,6 @@ class RsvpAdded extends Notification implements ShouldQueue {
     }
 
     public function toMessage(Rsvp $notifiable) {
-        $message = "Your RSVP for Michelle and Nick's celebration of marriage. Please RSVP at https://bonnaud-meyer.com/#rsvp?id={$notifiable->short_id}";
+        return "Your RSVP for Michelle and Nick's celebration of marriage. Please RSVP at https://bonnaud-meyer.com/#rsvp?id={$notifiable->short_id}";
     }
 }
