@@ -15,7 +15,7 @@ class Rsvp extends Model {
         'will_attend' => 'boolean'
     ];
 
-    protected $hidden = ['user_id', 'created_at', 'updated_at', 'short_id'];
+    protected $hidden = ['user_id', 'created_at', 'updated_at'];
     protected $guarded = ['id', 'short_id'];
     
     public static function boot(): void {
