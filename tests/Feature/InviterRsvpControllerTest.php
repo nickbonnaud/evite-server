@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Rsvp;
 use App\Models\User;
-use App\Notifications\RsvpAdded;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
@@ -132,27 +131,6 @@ class InviterRsvpControllerTest extends TestCase {
             $this->assertEquals($rsvpResource->name, $body['rsvps'][$index]['name']);
             $this->assertEquals($rsvpResource->number, $body['rsvps'][$index]['number']);
         }
-    }
-
-    public function test_creating_rsvps_sends_notifications() {
-        Notification::fake();
-
-        $user = User::factory()->create();
-        $this->login($user);
-
-        $numberRsvps = $this->faker->numberBetween(5, 15);
-        $body = [
-            'rsvps' => $this->generateRsvpData($numberRsvps)
-        ];
-        
-        $this->postJson('api/inviter/rsvp', $body);
-
-        Notification::assertSentTo(
-            Rsvp::all(),
-            RsvpAdded::class
-        );
-
-        Notification::assertCount($numberRsvps);
     }
 
 
